@@ -7,11 +7,6 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  
-permissions:
-  contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: "pages"
@@ -19,27 +14,37 @@ concurrency:
 
 jobs:
   deploy:
+    name: Deploy
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        path: project
         
       - name: Build React app
         run: |
+         cd project
          npm ci
          npm run build
         
-      - name: Setup Pages
-        uses: actions/configure-pages@v2
+      - name: Switch to deploy branch
+        run: git checkout -b deploy
         
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: 'build'
-          
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
+      - name: Commit build files
+      - run: |
+         # remove old project files
+         find . -type f ! -regex './project/?.*' -delete
+
+         # move new project files
+         (cd project/build && cp * ../..)
+         rm -rf project
+
+         git commit -am "Deploy ${{ github.sha }}"
+         git push -u origin deploy
+
+
