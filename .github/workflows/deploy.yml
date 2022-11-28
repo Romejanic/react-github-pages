@@ -38,7 +38,7 @@ jobs:
          find . -type f ! -regex './build/?.*' -delete
 
          # move new project files
-         cp build/* ..
+         cp -r build/* ..
          rm -rf build
 
          git commit -am "Deploy ${{ github.sha }}"
