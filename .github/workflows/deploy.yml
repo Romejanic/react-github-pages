@@ -35,7 +35,7 @@ jobs:
       - name: Commit build files
         run: |
          # remove old project files
-         find . -type f ! -regex './build/?.*' -delete
+         find . -type f ! -regex './\(build\|.git\)/.*' -delete
 
          # move new project files
          cp -r build/* ..
