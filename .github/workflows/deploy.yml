@@ -35,7 +35,7 @@ jobs:
         run: git checkout -b deploy
         
       - name: Commit build files
-      - run: |
+        run: |
          # remove old project files
          find . -type f ! -regex './project/?.*' -delete
 
