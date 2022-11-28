@@ -26,7 +26,6 @@ jobs:
         
       - name: Build React app
         run: |
-         cd project
          npm ci
          npm run build
         
