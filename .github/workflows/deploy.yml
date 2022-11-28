@@ -24,6 +24,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         
+      - name: Debugging
+        run: |
+         git branch
+         git remote 
+         git remote get-url origin
+
       - name: Build React app
         run: |
          npm ci
