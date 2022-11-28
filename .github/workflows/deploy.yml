@@ -23,8 +23,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          path: project
         
       - name: Build React app
         run: |
@@ -38,11 +36,11 @@ jobs:
       - name: Commit build files
         run: |
          # remove old project files
-         find . -type f ! -regex './project/?.*' -delete
+         find . -type f ! -regex './build/?.*' -delete
 
          # move new project files
-         (cd project/build && cp * ../..)
-         rm -rf project
+         (cd project/build && cp * ..)
+         rm -rf build
 
          git commit -am "Deploy ${{ github.sha }}"
          git push -u origin deploy
