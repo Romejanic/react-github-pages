@@ -43,7 +43,7 @@ jobs:
 
          git config user.name "${{ github.triggering_actor }}"
          git config user.email "${{ github.triggering_actor }}@users.noreply.github.com"
-         git pull
+         git pull origin deploy
          git add -A
          git commit -m "Deploy ${{ github.sha }}"
          git push -u origin deploy
